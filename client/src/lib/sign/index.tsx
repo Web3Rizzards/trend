@@ -12,7 +12,13 @@ import {
   POST_SCHEMA_ID,
   REACTION_SCHEMA_ID,
 } from "./constants";
-import type { PersonType, PostType, ReactionType, WorldIdProof } from "./types";
+import type {
+  ExtendedPostType,
+  PersonType,
+  PostType,
+  ReactionType,
+  WorldIdProof,
+} from "./types";
 import {
   encodeWorldIdExtraData,
   getShortSchemaId,
@@ -132,25 +138,30 @@ export class TrendSDK {
   }
 
   async writePost(post: PostType, proof: WorldIdProof): Promise<string> {
+    let proofEncoded = encodeWorldIdExtraData(
+      proof.root,
+      proof.nullifierHash,
+      proof.proof
+    );
+
+    console.log(proofEncoded);
+
     const result = await this.client.createAttestation(
       {
         schemaId: getShortSchemaId(POST_SCHEMA_ID),
+        // schemaId: "0x2e3",
         attester: this.getAttester(),
         data: post,
         indexingValue: `trend_post`,
       },
       {
-        extraData: encodeWorldIdExtraData(
-          proof.root,
-          proof.nullifierHash,
-          proof.proof
-        ),
+        extraData: proofEncoded,
       }
     );
     return result.attestationId;
   }
 
-  async getPosts(page: number = 1): Promise<PostType[] | null> {
+  async getPosts(page: number = 1): Promise<ExtendedPostType[] | null> {
     const attestations = await this.indexService.queryAttestationList({
       schemaId: POST_SCHEMA_ID,
       indexingValue: `trend_post`,
@@ -164,7 +175,7 @@ export class TrendSDK {
     if (attestations.rows.length > 0) {
       const decodedAttestations = attestations.rows.map((attestation) => {
         const decodedData = parseAttestationData(attestation);
-        return decodedData as PostType;
+        return decodedData as ExtendedPostType;
       });
       return decodedAttestations;
     }

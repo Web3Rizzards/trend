@@ -7,6 +7,7 @@ import DangerousAvatar from "../DangerousAvatar";
 import { useAccount } from "wagmi";
 import { hexToBigInt, decodeAbiParameters } from "viem";
 import { useUser } from "@/context/UserContext";
+import Textarea from "../Shared/Textarea";
 
 const CreatePost = () => {
   const { proof, merkle_root, nullifier_hash } = useUser();
@@ -37,8 +38,6 @@ const CreatePost = () => {
     } catch (error) {
       console.log(error);
     }
-
-    console.log("Submit");
   };
 
   const getPfp = async (address: string) => {
@@ -56,18 +55,7 @@ const CreatePost = () => {
     <CreatePostContainer>
       <DangerousAvatar src={avatar} alt="PFP" />
       <CreatePostContent>
-        <input
-          type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Enter your content"
-        />
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          placeholder="Enter your image"
-        />
+        <Textarea id={"post-content"} setContent={setContent} value={content} />
         <Button label="Post" onClick={handleSubmit} />
       </CreatePostContent>
     </CreatePostContainer>

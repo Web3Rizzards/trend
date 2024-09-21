@@ -17,3 +17,11 @@ export type WorldIdProof = {
   nullifierHash: bigint;
   proof: [bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint];
 };
+
+export type ExtendedPostType = {
+  content: string;
+  image: string;
+  timestamp: string;
+  from: string;
+  id: string;
+};
