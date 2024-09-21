@@ -18,16 +18,12 @@ const client = new SignProtocolClient(SpMode.OnChain, {
     account: privateKeyToAccount(privateKey), // optional
 });
 
-const delegationOptions = {
-    chain: EvmChains.baseSepolia,
-    account: privateKeyToAccount(privateKey), // optional
-}
 
 // Define the Person (Actor) Schema
-const personSchema = {
+const personSchema: Schema = {
     name: 'Person',
     description: 'Schema for decentralized social media user (Person)',
-    items: [
+    data: [
         { name: 'id', type: 'string' },
         { name: 'username', type: 'string' },
         { name: 'displayName', type: 'string' },
@@ -42,7 +38,7 @@ const personSchema = {
 const postActivitySchema: Schema = {
     name: 'PostActivity',
     description: 'Schema for user posting content',
-    items: [
+    data: [
         { name: 'type', type: 'string', },
         { name: 'actor', type: 'string' },
         { name: 'object', type: 'string' },
@@ -98,5 +94,14 @@ const registerSchemas = async () => {
     }
 };
 
-// Call the function to register schemas
-registerSchemas();
+
+async function main() {
+    await registerSchemas();
+}
+
+main().then(() => {
+    console.log('Schemas registered successfully');
+}).catch((error) => {
+    console.error('Error registering schemas:', error);
+    process.exit(1);
+});
