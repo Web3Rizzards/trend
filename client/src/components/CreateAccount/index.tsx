@@ -1,32 +1,17 @@
 import { useState } from "react";
 import Avatar from "../Avatar";
-import Textarea from "../Shared/Textarea";
 import { CreatePostContainer, CreatePostContent } from "./style";
 import Button from "../Shared/Button";
-import { TrendSDK } from "../../lib/sign";
-import { createWalletClient, custom } from "viem";
-import { baseSepolia } from "viem/chains";
-import { useAccount } from "wagmi";
+
 import { useTrend } from "@/hooks/useTrend";
 
 const CreateAccount = () => {
-  const [content, setContent] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [preferredUsername, setPreferredUsername] = useState<string>("");
-  const { address, isConnected, chain } = useAccount();
 
   const trendSDK = useTrend();
-  const handleChange = (_content: string) => {
-    setContent(_content);
-  };
 
   const handleSubmit = async () => {
-    console.log(address);
-    const client = createWalletClient({
-      chain: baseSepolia,
-      transport: custom(window.ethereum!),
-    });
-
     await trendSDK?.createUserProfile(
       {
         name,
