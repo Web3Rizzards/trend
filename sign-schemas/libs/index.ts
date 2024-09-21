@@ -1,6 +1,5 @@
 import { SignProtocolClient, SpMode, EvmChains, type Schema, IndexService, type Address } from '@ethsign/sp-sdk';
-import { privateKeyToAccount } from 'viem/accounts';
-import type { Account, LocalAccount, PrivateKeyAccount, WalletClient } from 'viem';
+import type { PrivateKeyAccount, WalletClient } from 'viem';
 import { PERSON_SCHEMA_ID, POST_SCHEMA_ID, REACTION_SCHEMA_ID } from './constants';
 import type { PersonType, PostType, ReactionType } from './types';
 import { parseAttestationData } from './utils';
