@@ -39,13 +39,13 @@ const CreatePost = () => {
         }
       );
       console.log("writePost - response", response);
-      toast.success("Created post");
-      setTimeout(() => {
-        location.reload();
-      }, 1_000);
     } catch (error) {
       console.log("Error", error);
     }
+    toast.success("Created post");
+    setTimeout(() => {
+      location.reload();
+    }, 1_000);
   };
 
   const getPfp = async (address: string) => {
