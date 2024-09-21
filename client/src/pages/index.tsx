@@ -1,9 +1,9 @@
-import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
+import CreatePost from "@/components/CreatePost";
 
 export default function Home() {
   return (
     <>
-      <p>Home View</p>
+      <CreatePost />
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   ISuccessResult,
   VerificationLevel,
 } from "@worldcoin/idkit";
+import Button from "../Shared/Button";
 
 const handleVerify = async (proof: ISuccessResult) => {
   //   {
@@ -42,7 +43,9 @@ const WorldId = () => {
       handleVerify={handleVerify}
       onSuccess={onSuccess}
     >
-      {({ open }) => <button onClick={open}>Verify with World ID</button>}
+      {({ open }) => (
+        <Button label="Verify with World ID" onClick={open}></Button>
+      )}
     </IDKitWidget>
   );
 };
