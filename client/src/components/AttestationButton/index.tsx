@@ -12,7 +12,7 @@ const getDispatcherAddressSet = (chainId: number) => {
     case morphHolesky.id:
       return "0x790d846ad311772E311B1C7525ba07A799535dd2";
     case lineaSepolia.id:
-      return "0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083";
+      return "0x38a88B37c9357b11A1b405825935A53aB4cBDAEB";
     default:
       return "";
   }

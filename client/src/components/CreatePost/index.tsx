@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CreatePostContainer, CreatePostContent } from "./style";
 import Button from "../Shared/Button";
 import { useTrend } from "@/hooks/useTrend";
@@ -12,7 +12,15 @@ import { baseSepolia } from "viem/chains";
 import AttestationButton from "../AttestationButton";
 import toast from "react-hot-toast";
 
-const CreatePost = () => {
+interface IProps {
+  callback: (
+    address: `0x${string}`,
+    content: string,
+    timestamp: string
+  ) => void;
+}
+
+const CreatePost: FC<IProps> = ({ callback }) => {
   const { proof, merkle_root, nullifier_hash } = useUser();
   const [content, setContent] = useState<string>("");
   const [image, setImage] = useState<string>("");
@@ -43,9 +51,7 @@ const CreatePost = () => {
       console.log("Error", error);
     }
     toast.success("Created post");
-    setTimeout(() => {
-      location.reload();
-    }, 1_000);
+    callback(address!, content, new Date().getTime().toString());
   };
 
   const getPfp = async (address: string) => {

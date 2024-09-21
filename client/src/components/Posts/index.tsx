@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { PostsContainer } from "./style";
 import Post from "../Post";
 import { ExtendedPostType } from "@/lib/sign/types";
+import CreatePost from "../CreatePost";
 
 const Posts = () => {
   const trendSDK = useTrend();
@@ -16,8 +17,26 @@ const Posts = () => {
     fetchData();
   }, [trendSDK]);
 
+  const handleNewPost = (
+    address: `0x${string}`,
+    content: string,
+    timestamp: string
+  ) => {
+    setPosts((prevPosts) => [
+      {
+        content,
+        image: "",
+        timestamp,
+        from: address,
+        id: "XXX",
+      },
+      ...prevPosts,
+    ]);
+  };
+
   return (
     <PostsContainer>
+      <CreatePost callback={handleNewPost} />
       {posts.length > 0 ? (
         <>
           {posts.map((post: any) => (
