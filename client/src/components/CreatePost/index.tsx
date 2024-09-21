@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "../Avatar";
 import Textarea from "../Shared/Textarea";
 import { CreatePostContainer, CreatePostContent } from "./style";
@@ -8,6 +8,8 @@ import { createWalletClient, custom } from "viem";
 import { baseSepolia } from "viem/chains";
 import { useAccount } from "wagmi";
 import { useTrend } from "@/hooks/useTrend";
+import { generatePfp } from "@/lib/noun/pfp";
+import DangerousAvatar from "../DangerousAvatar";
 
 const CreateAccount = () => {
   const [content, setContent] = useState<string>("");
@@ -15,6 +17,7 @@ const CreateAccount = () => {
   const [preferredUsername, setPreferredUsername] = useState<string>("");
   const { address, isConnected, chain } = useAccount();
   const trendSDK = useTrend();
+  const [avatar, setAvatar] = useState<string>("");
 
   const handleSubmit = async () => {
     console.log(address);
@@ -30,9 +33,20 @@ const CreateAccount = () => {
     console.log("Submit");
   };
 
+  const getPfp = async (address: string) => {
+    const svg = await generatePfp(address);
+    setAvatar(svg);
+  };
+
+  useEffect(() => {
+    if (address) {
+      getPfp(address);
+    }
+  }, [address]);
+
   return (
     <CreatePostContainer>
-      <Avatar src={""} alt="PFP" />
+      <DangerousAvatar src={avatar} alt="PFP" />
       <CreatePostContent>
         <input
           type="text"
