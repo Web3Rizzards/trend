@@ -1,7 +1,14 @@
 {
-  "name": "sign",
+  "name": "sign-schemas",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "create": "bun ./scripts/createSchemas.ts",
+    "create:profile": "bun ./scripts/createProfile.ts",
+    "get": "bun ./scripts/getSchemas.ts",
+    "get:attestations": "bun ./scripts/getAttestations.ts",
+    "test": "jest"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -9,6 +16,8 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@ethsign/sp-sdk": "^0.7.4"
+    "@ethsign/sp-sdk": "^0.7.4",
+    "@types/jest": "^29.5.13",
+    "patch-package": "^8.0.0"
   }
 }
