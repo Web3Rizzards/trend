@@ -22,8 +22,9 @@ const client = new SignProtocolClient(SpMode.OnChain, {
 
 // Define the Person (Actor) Schema
 const personSchema: Schema = {
-    name: 'Trend Person',
+    name: 'Trend Person (WorldID)',
     description: 'Schema for Trend users',
+    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
     data: [
         { name: 'name', type: 'string' },
         { name: 'preferredUsername', type: 'string' },
@@ -33,8 +34,9 @@ const personSchema: Schema = {
 
 // Define the Post Object Schema
 const postSchema: Schema = {
-    name: 'Trend Post',
+    name: 'Trend Post (WorldID)',
     description: 'Schema for Trend content posts',
+    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
     data: [
         { name: 'content', type: 'string' },
         { name: 'image', type: 'string' },
@@ -43,8 +45,9 @@ const postSchema: Schema = {
 
 // Define the Reaction Schema (for likes and other reactions)
 const reactionSchema: Schema = {
-    name: 'Trend Reaction',
+    name: 'Trend Reaction (WorldID)',
     description: 'Schema for reactions (like, love, etc.) on posts on Trend',
+    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
     data: [
         { name: 'reactionType', type: 'string' },
     ],
