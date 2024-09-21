@@ -13,6 +13,7 @@ import Layout from "@/components/Shared/Layout";
 import BaseFont from "@/styles/fonts";
 import { ThemeUpdaterProvider } from "@/context/useThemeUpdater";
 import { UserProvider } from "@/context/UserContext";
+import { ZeroDevSmartWalletConnectorsWithConfig } from "@dynamic-labs/ethereum-aa";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,13 @@ export default function App({ Component, pageProps }: AppProps) {
           <DynamicContextProvider
             settings={{
               environmentId: ENVIRONMENT.DYNAMIC_ID,
-              walletConnectors: [EthereumWalletConnectors],
+              walletConnectors: [
+                EthereumWalletConnectors,
+                ZeroDevSmartWalletConnectorsWithConfig({
+                  bundlerRpc: process.env.NEXT_PUBLIC_ZERODEV_BUNDLER_RPC,
+                  paymasterRpc: process.env.NEXT_PUBLIC_ZERODEV_PAYMASTER_RPC,
+                }),
+              ],
             }}
           >
             <WagmiProvider config={wagmiConfig}>
