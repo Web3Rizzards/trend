@@ -44,10 +44,11 @@ contract WorldIDSchemaHook is ISPHook {
         string memory _actionId
     ) {
         worldId = _worldId;
-        externalNullifier = abi
-            .encodePacked(keccak256(
-                abi.encodePacked(keccak256(abi.encodePacked(_appId)), _actionId)
-            ));
+        externalNullifier = uint256(
+        keccak256(
+            abi.encodePacked(keccak256(abi.encodePacked(_appId)), _actionId)
+        )
+    );
     }
 
     ////////////////////////////////////////////////////////////////////////////////
