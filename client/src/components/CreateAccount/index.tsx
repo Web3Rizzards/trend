@@ -12,13 +12,14 @@ const CreateAccount = () => {
   const trendSDK = useTrend();
 
   const handleSubmit = async () => {
-    await trendSDK?.createUserProfile(
-      {
-        name,
-        preferredUsername,
-      },
-      proof
-    ); // TODO: @mongchanghsi get proof
+    // TODO: @mongchanghsi get proof
+    // await trendSDK?.createUserProfile(
+    //   {
+    //     name,
+    //     preferredUsername,
+    //   },
+    //   proof
+    // );
     console.log("Submit");
   };
 
