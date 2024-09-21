@@ -8,6 +8,8 @@ import { useAccount } from "wagmi";
 import { hexToBigInt, decodeAbiParameters } from "viem";
 import { useUser } from "@/context/UserContext";
 import Textarea from "../Shared/Textarea";
+import { baseSepolia } from "viem/chains";
+import AttestationButton from "../AttestationButton";
 
 const CreatePost = () => {
   const { proof, merkle_root, nullifier_hash } = useUser();
@@ -15,7 +17,7 @@ const CreatePost = () => {
   const [image, setImage] = useState<string>("");
   const trendSDK = useTrend();
   const [avatar, setAvatar] = useState<string>("");
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
 
   const handleSubmit = async () => {
     const unpackedProof = decodeAbiParameters(
@@ -56,7 +58,11 @@ const CreatePost = () => {
       <DangerousAvatar src={avatar} alt="PFP" />
       <CreatePostContent>
         <Textarea id={"post-content"} setContent={setContent} value={content} />
-        <Button label="Post" onClick={handleSubmit} />
+        {chainId === baseSepolia.id ? (
+          <Button label="Post" onClick={handleSubmit} />
+        ) : (
+          <AttestationButton />
+        )}
       </CreatePostContent>
     </CreatePostContainer>
   );

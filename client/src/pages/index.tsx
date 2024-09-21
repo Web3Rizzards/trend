@@ -1,3 +1,4 @@
+import AttestationButton from "@/components/AttestationButton";
 import CreatePost from "@/components/CreatePost";
 import Posts from "@/components/Posts";
 import { styled } from "styled-components";
