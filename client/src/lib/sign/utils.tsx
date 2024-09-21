@@ -14,7 +14,7 @@ export function parseAttestationData(attestation: AttestationInfo): any {
   });
   return {
     ...parsedData,
-    from: attestation.from,
+    from: attestation.attester,
     timestamp: attestation.attestTimestamp,
     id: attestation.attestationId,
   };
