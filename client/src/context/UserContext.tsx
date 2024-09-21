@@ -8,6 +8,7 @@ type State = {
   merkle_root: string;
   nullifier_hash: string;
   verified: boolean;
+  setData: (proof: string, root: string, hash: string) => void;
 };
 
 const initialState: State = {
@@ -15,6 +16,7 @@ const initialState: State = {
   merkle_root: "",
   nullifier_hash: "",
   verified: false,
+  setData: () => {},
 };
 
 const UserContext = React.createContext<State>(initialState);
@@ -36,6 +38,13 @@ const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const setData = (proof: string, root: string, hash: string) => {
+    setProof(proof);
+    setRoot(root);
+    setHash(hash);
+    setVerified(true);
+  };
+
   useEffect(() => {
     if (address) {
       fetchData(address);
@@ -44,7 +53,13 @@ const UserProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <UserContext.Provider
-      value={{ proof, merkle_root: root, nullifier_hash: hash, verified }}
+      value={{
+        proof,
+        merkle_root: root,
+        nullifier_hash: hash,
+        verified,
+        setData,
+      }}
     >
       {children}
     </UserContext.Provider>

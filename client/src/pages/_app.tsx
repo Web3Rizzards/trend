@@ -14,6 +14,7 @@ import BaseFont from "@/styles/fonts";
 import { ThemeUpdaterProvider } from "@/context/useThemeUpdater";
 import { UserProvider } from "@/context/UserContext";
 import { ZeroDevSmartWalletConnectorsWithConfig } from "@dynamic-labs/ethereum-aa";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${BaseFont.style.fontFamily};
         }
       `}</style>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <ThemeUpdaterProvider>
         <Theme>
           <DynamicContextProvider
