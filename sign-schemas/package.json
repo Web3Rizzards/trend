@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "create": "bun ./scripts/createSchemas.ts",
-    "get": "bun ./scripts/getSchemas.ts"
+    "get": "bun ./scripts/getSchemas.ts",
+    "get:attestations": "bun ./scripts/getAttestations.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
