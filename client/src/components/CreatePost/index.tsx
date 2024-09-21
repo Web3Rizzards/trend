@@ -10,6 +10,7 @@ import { useUser } from "@/context/UserContext";
 import Textarea from "../Shared/Textarea";
 import { baseSepolia } from "viem/chains";
 import AttestationButton from "../AttestationButton";
+import toast from "react-hot-toast";
 
 const CreatePost = () => {
   const { proof, merkle_root, nullifier_hash } = useUser();
@@ -37,8 +38,13 @@ const CreatePost = () => {
           nullifierHash: hexToBigInt(nullifier_hash as `0x${string}`),
         }
       );
+      console.log("writePost - response", response);
+      toast.success("Created post");
+      setTimeout(() => {
+        location.reload();
+      }, 1_000);
     } catch (error) {
-      console.log(error);
+      console.log("Error", error);
     }
   };
 
