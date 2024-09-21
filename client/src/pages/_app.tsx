@@ -9,26 +9,40 @@ import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import ENVIRONMENT from "@/configuration/environment";
 import wagmiConfig from "@/configuration/wagmi";
 import Layout from "@/components/Shared/Layout";
+import BaseFont from "@/styles/fonts";
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <DynamicContextProvider
-      settings={{
-        environmentId: ENVIRONMENT.DYNAMIC_ID,
-        walletConnectors: [EthereumWalletConnectors],
-      }}
-    >
-      <WagmiProvider config={wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-          <DynamicWagmiConnector>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </DynamicWagmiConnector>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </DynamicContextProvider>
+    <>
+      <style jsx global>{`
+        html,
+        body {
+          font-family: ${BaseFont.style.fontFamily};
+        }
+
+        input,
+        textarea {
+          font-family: ${BaseFont.style.fontFamily};
+        }
+      `}</style>
+      <DynamicContextProvider
+        settings={{
+          environmentId: ENVIRONMENT.DYNAMIC_ID,
+          walletConnectors: [EthereumWalletConnectors],
+        }}
+      >
+        <WagmiProvider config={wagmiConfig}>
+          <QueryClientProvider client={queryClient}>
+            <DynamicWagmiConnector>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </DynamicWagmiConnector>
+          </QueryClientProvider>
+        </WagmiProvider>
+      </DynamicContextProvider>
+    </>
   );
 }

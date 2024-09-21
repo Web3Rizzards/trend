@@ -1,4 +1,4 @@
-import { Montserrat } from "next/font/google";
+import { Montserrat, Londrina_Solid } from "next/font/google";
 
 const montserratFont = Montserrat({
   weight: ["100", "200", "300", "400", "600", "700", "800"],
@@ -7,6 +7,13 @@ const montserratFont = Montserrat({
   display: "swap",
 });
 
-const baseFont = montserratFont;
+const londrinaSolidFont = Londrina_Solid({
+  weight: ["100", "300", "400", "900"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const baseFont = londrinaSolidFont;
 
 export default baseFont;
