@@ -87,6 +87,22 @@ const Post: FC<IProps> = ({ post }) => {
     } catch (error) {}
   };
 
+  const formatDate = (timestamp: number): string => {
+    const _date = new Date(timestamp);
+
+    const day = String(_date.getDate()).padStart(2, "0");
+    const month = String(_date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = _date.getFullYear();
+
+    let hours: any = _date.getHours();
+    const minutes = String(_date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+
+    hours = hours % 12; // Convert to 12-hour format
+    hours = hours ? String(hours).padStart(2, "0") : "12"; // '0' should be '12'
+
+    return `${day}/${month}/${year} ${hours}:${minutes}${ampm}`;
+  };
   return (
     <PostContainer>
       <DangerousAvatar src={avatar} alt="PFP" />
@@ -102,7 +118,7 @@ const Post: FC<IProps> = ({ post }) => {
             </PostReactTab>
           ))}
         </PostReactTabs>
-        <PostTimestamp>{post.timestamp}</PostTimestamp>
+        <PostTimestamp>{formatDate(+post.timestamp)}</PostTimestamp>
       </PostSection>
     </PostContainer>
   );
