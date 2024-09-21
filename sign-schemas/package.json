@@ -1,7 +1,10 @@
 {
-  "name": "sign",
+  "name": "sign-schemas",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

@@ -6,6 +6,7 @@ import {
     type Schema,
 } from '@ethsign/sp-sdk';
 import { privateKeyToAccount } from 'viem/accounts';
+import fs from 'fs';
 
 const privateKey = process.env.PRIVATE_KEY as `0x${string}`; // THROWAWAY PK
 
@@ -75,28 +76,40 @@ const reactionSchema: Schema = {
     ],
 };
 
-// Register all the schemas
+// Modify the registerSchemas function
 const registerSchemas = async () => {
+    const results = [];
     try {
-        const personSchemaId = await client.createSchema(personSchema);
-        const postActivitySchemaId = await client.createSchema(postActivitySchema);
-        const postSchemaId = await client.createSchema(postSchema);
-        const reactionSchemaId = await client.createSchema(reactionSchema);
+        const schemas = [
+            { name: 'Person', schema: personSchema },
+            { name: 'PostActivity', schema: postActivitySchema },
+            { name: 'Post', schema: postSchema },
+            { name: 'Reaction', schema: reactionSchema }
+        ];
 
-        console.log('Schemas registered successfully:', {
-            personSchemaId,
-            postActivitySchemaId,
-            postSchemaId,
-            reactionSchemaId
-        });
+        for (const { name, schema } of schemas) {
+            console.log(`Creating schema: ${name}...`);
+            const result = await client.createSchema(schema);
+            console.log(`Schema ${name} created. SchemaID: ${result.schemaId}, TxHash: ${result.txHash}`);
+            results.push({ name, schemaId: result.schemaId, txHash: result.txHash });
+        }
+
+        console.log('All schemas registered successfully');
+        return results;
     } catch (error) {
         console.error('Error registering schemas:', error);
+        throw error;
     }
 };
 
-
 async function main() {
-    await registerSchemas();
+    const results = await registerSchemas();
+
+    // Write results to a file
+    const output = results.map(r => `${r.name}: SchemaID: ${r.schemaId}, TxHash: ${r.txHash}`).join('\n');
+    fs.writeFileSync('schema_results.txt', output);
+
+    console.log('Results written to schema_results.txt');
 }
 
 main().then(() => {
