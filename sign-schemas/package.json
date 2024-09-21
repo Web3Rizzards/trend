@@ -1,0 +1,14 @@
+{
+  "name": "sign",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@ethsign/sp-sdk": "^0.7.4"
+  }
+}
