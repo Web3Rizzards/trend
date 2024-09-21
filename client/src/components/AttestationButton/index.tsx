@@ -3,9 +3,20 @@ import { ethers } from "ethers";
 import { useAccount, useWalletClient, usePublicClient } from "wagmi";
 import Button from "../Shared/Button";
 import { parseAbi, stringToBytes } from "viem";
+import { lineaSepolia, morphHolesky, morphSepolia } from "viem/chains";
 
-const DISPATCHER_ADDRESS = "0x790d846ad311772E311B1C7525ba07A799535dd2";
 const SIGN_ADDRESS = "0x935588C6018925E659847b07891A62CdA5054B2d";
+
+const getDispatcherAddressSet = (chainId: number) => {
+  switch (chainId) {
+    case morphHolesky.id:
+      return "0x790d846ad311772E311B1C7525ba07A799535dd2";
+    case lineaSepolia.id:
+      return "0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083";
+    default:
+      return "";
+  }
+};
 
 const AttestationButton = () => {
   const { address, chainId } = useAccount();
@@ -71,10 +82,11 @@ const AttestationButton = () => {
 
         console.log("Attestation successful on chain 84532");
       } else {
+        const _currDispatcherAddr = getDispatcherAddressSet(chainId);
+        if (!_currDispatcherAddr) return;
         // Other chain: Call dispatchAttestation
 
         // Replace with your AttestationDispatcher contract address on the current chain
-        const attestationDispatcherAddress = DISPATCHER_ADDRESS;
 
         // ABI of the AttestationDispatcher contract
         const attestationDispatcherABI = parseAbi([
@@ -86,10 +98,10 @@ const AttestationButton = () => {
 
         // Prepare the attestation data to be sent
         const schemaId = 1; // Replace with actual schemaId
-        const contractDetails = "Your contract details";
+        const contractDetails = "content";
         const signerAddress = address;
-        const indexingKey = "";
-        const extraData = ethers.toUtf8Bytes("Your extra data");
+        const indexingKey = "trend_post";
+        const extraData = ethers.toUtf8Bytes("World ID Data");
 
         const abiCoder = new ethers.AbiCoder();
 
@@ -100,7 +112,7 @@ const AttestationButton = () => {
 
         const { request } = await publicClient!.simulateContract({
           account: address,
-          address: attestationDispatcherAddress,
+          address: _currDispatcherAddr,
           abi: attestationDispatcherABI,
           functionName: "dispatchAttestation",
           args: [action, attestationData],
@@ -117,7 +129,7 @@ const AttestationButton = () => {
     }
   };
 
-  return <Button label="Submit Attestation" onClick={handleAttest}></Button>;
+  return <Button label="Post from other chain" onClick={handleAttest}></Button>;
 };
 
 export default AttestationButton;

@@ -12,7 +12,6 @@ const HomeContainer = styled.div`
 export default function Home() {
   return (
     <HomeContainer>
-      <AttestationButton />
       <CreatePost />
       <Posts />
     </HomeContainer>
