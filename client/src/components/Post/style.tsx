@@ -1,9 +1,24 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const slideDown = keyframes`
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const PostContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 18px;
+
+  &.new {
+    animation: ${slideDown} 0.5s ease-out forwards;
+  }
 `;
 
 export const PostSection = styled.div`

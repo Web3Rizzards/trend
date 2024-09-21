@@ -39,8 +39,8 @@ const Posts = () => {
       <CreatePost callback={handleNewPost} />
       {posts.length > 0 ? (
         <>
-          {posts.map((post: any) => (
-            <Post post={post} />
+          {posts.map((post: any, index: number) => (
+            <Post post={post} isNew={index === 0} />
           ))}
         </>
       ) : (

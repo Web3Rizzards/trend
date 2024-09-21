@@ -18,10 +18,11 @@ import toast from "react-hot-toast";
 const REACTION_OPTIONS = ["👍", "🔥", "💕", "💪"];
 
 interface IProps {
+  isNew: boolean;
   post: ExtendedPostType;
 }
 
-const Post: FC<IProps> = ({ post }) => {
+const Post: FC<IProps> = ({ post, isNew }) => {
   const { proof, merkle_root, nullifier_hash } = useUser();
   const trendSDK = useTrend();
   const [avatar, setAvatar] = useState<string>("");
@@ -110,7 +111,7 @@ const Post: FC<IProps> = ({ post }) => {
     return `${day}/${month}/${year} ${hours}:${minutes}${ampm}`;
   };
   return (
-    <PostContainer>
+    <PostContainer className={isNew ? "new" : ""}>
       <DangerousAvatar src={avatar} alt="PFP" />
       <PostSection>
         <PostContent>{post.content}</PostContent>
