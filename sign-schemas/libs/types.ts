@@ -1,6 +1,6 @@
 export type PersonType = {
-    username: string;
-    displayName: string;
+    name: string;
+    preferredUsername: string;
 };
 
 export type ReactionType = {

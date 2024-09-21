@@ -2,7 +2,7 @@ import { SignProtocolClient, SpMode, EvmChains, type Schema, IndexService, type 
 import type { PrivateKeyAccount, WalletClient } from 'viem';
 import { PERSON_SCHEMA_ID, POST_SCHEMA_ID, REACTION_SCHEMA_ID } from './constants';
 import type { PersonType, PostType, ReactionType } from './types';
-import { parseAttestationData } from './utils';
+import { getShortSchemaId, parseAttestationData } from './utils';
 
 export class TrendSDK {
     private client: SignProtocolClient;
@@ -10,9 +10,7 @@ export class TrendSDK {
     private walletClient: WalletClient | undefined;
     private account: PrivateKeyAccount | undefined;
 
-
     constructor(account?: PrivateKeyAccount, walletClient?: WalletClient) {
-
         // Use Wagmi Wallet Client, else use the account (private key)
         if (walletClient) {
             this.client = new SignProtocolClient(SpMode.OnChain, {
@@ -40,12 +38,14 @@ export class TrendSDK {
     }
 
     async createUserProfile(profile: PersonType): Promise<string> {
+        console.log("Creating user profile", getShortSchemaId(PERSON_SCHEMA_ID))
         const result = await this.client.createAttestation({
-            schemaId: PERSON_SCHEMA_ID,
+            schemaId: getShortSchemaId(PERSON_SCHEMA_ID),
             data: profile,
             attester: this.getAttester(),
-            indexingValue: `trend_profile_${profile.username}`,
+            indexingValue: `trend_profile_${profile.preferredUsername}`,
         });
+        console.log("User profile created", result)
         return result.attestationId;
     }
 
@@ -97,7 +97,7 @@ export class TrendSDK {
 
     async writePost(post: PostType): Promise<string> {
         const result = await this.client.createAttestation({
-            schemaId: POST_SCHEMA_ID,
+            schemaId: getShortSchemaId(POST_SCHEMA_ID),
             attester: this.getAttester(),
             data: post,
             indexingValue: `trend_post`,
@@ -152,7 +152,7 @@ export class TrendSDK {
 
     async reactToPost(postId: string, reaction: ReactionType): Promise<string> {
         const result = await this.client.createAttestation({
-            schemaId: REACTION_SCHEMA_ID,
+            schemaId: getShortSchemaId(REACTION_SCHEMA_ID),
             linkedAttestationId: postId,
             attester: this.getAttester(),
             data: reaction,
@@ -163,8 +163,8 @@ export class TrendSDK {
 
     async getReactsForPost(postId: string): Promise<ReactionType[] | null> {
         const attestations = await this.indexService.queryAttestationList({
-            id: postId,
-            schemaId: REACTION_SCHEMA_ID,
+            // linkedAttestation: postId,
+            indexingValue: `trend_reaction_${postId}`, //Workaround
             page: 1,
         });
         if (!attestations) {

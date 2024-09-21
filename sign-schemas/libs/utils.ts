@@ -12,3 +12,16 @@ export function parseAttestationData(attestation: AttestationInfo): any {
     });
     return parsedData;
 }
+export function getShortSchemaId(schemaId: string): string {
+    // Extract the hex part from the end of the schemaId
+    const hexPart = schemaId.split('_').pop();
+
+    // Return the hex part if found, otherwise return the original schemaId
+    return hexPart || schemaId;
+}
+
+
+// Helper function to get the long schema id
+export function getLongSchemaId(chainId: string, schemaId: string): string {
+    return `onchain_evm_${chainId}_${schemaId}`;
+}
