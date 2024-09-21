@@ -23,10 +23,13 @@ const CreateAccount = () => {
       transport: custom(window.ethereum!),
     });
 
-    await trendSDK?.writePost({
-      content,
-      image,
-    });
+    await trendSDK?.writePost(
+      {
+        content,
+        image,
+      },
+      proof
+    ); // TODO: @mongchanghsi get proof
     console.log("Submit");
   };
 

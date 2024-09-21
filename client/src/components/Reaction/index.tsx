@@ -20,10 +20,13 @@ const CreateAccount = () => {
       transport: custom(window.ethereum!),
     });
 
-    await trendSDK?.reactToPost(postId, {
-      reactionType: "👍",
-    });
-    console.log("Submit");
+    await trendSDK?.reactToPost(
+      postId,
+      {
+        reactionType: "👍",
+      },
+      proof
+    ); // TODO: @mongchanghsi get proof
   };
 
   return (

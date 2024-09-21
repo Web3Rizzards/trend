@@ -12,8 +12,12 @@ import {
   POST_SCHEMA_ID,
   REACTION_SCHEMA_ID,
 } from "./constants";
-import type { PersonType, PostType, ReactionType } from "./types";
-import { getShortSchemaId, parseAttestationData } from "./utils";
+import type { PersonType, PostType, ReactionType, WorldIdProof } from "./types";
+import {
+  encodeWorldIdExtraData,
+  getShortSchemaId,
+  parseAttestationData,
+} from "./utils";
 
 export class TrendSDK {
   private client: SignProtocolClient;
@@ -54,14 +58,26 @@ export class TrendSDK {
     );
   }
 
-  async createUserProfile(profile: PersonType): Promise<string> {
+  async createUserProfile(
+    profile: PersonType,
+    proof: WorldIdProof
+  ): Promise<string> {
     console.log("Creating user profile", getShortSchemaId(PERSON_SCHEMA_ID));
-    const result = await this.client.createAttestation({
-      schemaId: getShortSchemaId(PERSON_SCHEMA_ID),
-      data: profile,
-      attester: this.getAttester(),
-      indexingValue: `trend_profile_${profile.preferredUsername}`,
-    });
+    const result = await this.client.createAttestation(
+      {
+        schemaId: getShortSchemaId(PERSON_SCHEMA_ID),
+        data: profile,
+        attester: this.getAttester(),
+        indexingValue: `trend_profile_${profile.preferredUsername}`,
+      },
+      {
+        extraData: encodeWorldIdExtraData(
+          proof.root,
+          proof.nullifierHash,
+          proof.proof
+        ),
+      }
+    );
     console.log("User profile created", result);
     return result.attestationId;
   }
@@ -115,13 +131,22 @@ export class TrendSDK {
     return null;
   }
 
-  async writePost(post: PostType): Promise<string> {
-    const result = await this.client.createAttestation({
-      schemaId: getShortSchemaId(POST_SCHEMA_ID),
-      attester: this.getAttester(),
-      data: post,
-      indexingValue: `trend_post`,
-    });
+  async writePost(post: PostType, proof: WorldIdProof): Promise<string> {
+    const result = await this.client.createAttestation(
+      {
+        schemaId: getShortSchemaId(POST_SCHEMA_ID),
+        attester: this.getAttester(),
+        data: post,
+        indexingValue: `trend_post`,
+      },
+      {
+        extraData: encodeWorldIdExtraData(
+          proof.root,
+          proof.nullifierHash,
+          proof.proof
+        ),
+      }
+    );
     return result.attestationId;
   }
 
@@ -168,14 +193,27 @@ export class TrendSDK {
     return null;
   }
 
-  async reactToPost(postId: string, reaction: ReactionType): Promise<string> {
-    const result = await this.client.createAttestation({
-      schemaId: getShortSchemaId(REACTION_SCHEMA_ID),
-      linkedAttestationId: postId,
-      attester: this.getAttester(),
-      data: reaction,
-      indexingValue: `trend_reaction_${postId}`,
-    });
+  async reactToPost(
+    postId: string,
+    reaction: ReactionType,
+    proof: WorldIdProof
+  ): Promise<string> {
+    const result = await this.client.createAttestation(
+      {
+        schemaId: getShortSchemaId(REACTION_SCHEMA_ID),
+        linkedAttestationId: postId,
+        attester: this.getAttester(),
+        data: reaction,
+        indexingValue: `trend_reaction_${postId}`,
+      },
+      {
+        extraData: encodeWorldIdExtraData(
+          proof.root,
+          proof.nullifierHash,
+          proof.proof
+        ),
+      }
+    );
     return result.attestationId;
   }
 

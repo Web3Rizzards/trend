@@ -27,10 +27,13 @@ const CreateAccount = () => {
       transport: custom(window.ethereum!),
     });
 
-    await trendSDK?.createUserProfile({
-      name,
-      preferredUsername,
-    });
+    await trendSDK?.createUserProfile(
+      {
+        name,
+        preferredUsername,
+      },
+      proof
+    ); // TODO: @mongchanghsi get proof
     console.log("Submit");
   };
 
