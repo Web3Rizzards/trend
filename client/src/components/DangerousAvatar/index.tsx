@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { styled } from "styled-components";
-import css from "styled-jsx/css";
+import { css, styled } from "styled-components";
 
 const DangerousAvatarContainer = styled.div<{ size: number }>`
   position: relative;
@@ -11,7 +10,9 @@ const DangerousAvatarContainer = styled.div<{ size: number }>`
 `;
 
 const DummyAvatarContainer = styled(DangerousAvatarContainer)`
-  background: white;
+  ${({ theme }) => css`
+    background: ${theme.light};
+  `}
 `;
 
 interface IProps {

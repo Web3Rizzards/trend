@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
-import Avatar from "../Avatar";
 import { CreatePostContainer, CreatePostContent } from "./style";
 import Button from "../Shared/Button";
 import { useTrend } from "@/hooks/useTrend";
 import { generatePfp } from "@/lib/noun/pfp";
 import DangerousAvatar from "../DangerousAvatar";
+import { useAccount } from "wagmi";
 
 const CreateAccount = () => {
   const [content, setContent] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const trendSDK = useTrend();
   const [avatar, setAvatar] = useState<string>("");
+  const { address } = useAccount();
 
   const handleSubmit = async () => {
-    await trendSDK?.writePost(
-      {
-        content,
-        image,
-      },
-      proof
-    ); // TODO: @mongchanghsi get proof
+    // TODO: @mongchanghsi get proof
+    // await trendSDK?.writePost(
+    //   {
+    //     content,
+    //     image,
+    //   },
+    //   proof
+    // );
     console.log("Submit");
   };
 
