@@ -1,16 +1,17 @@
 import { useState } from "react";
 import Avatar from "../Avatar";
-import Textarea from "../Shared/Textarea";
 import { CreatePostContainer, CreatePostContent } from "./style";
 import Button from "../Shared/Button";
-import { TrendSDK } from "../../lib/sign";
 import { createWalletClient, custom } from "viem";
 import { baseSepolia } from "viem/chains";
 import { useAccount } from "wagmi";
+import { useTrend } from "@/hooks/useTrend";
 
 const CreateAccount = () => {
   const [postId, setPostId] = useState<string>("");
   const { address, isConnected, chain } = useAccount();
+
+  const trendSDK = useTrend();
 
   const handleSubmit = async () => {
     console.log(address);
@@ -19,8 +20,7 @@ const CreateAccount = () => {
       transport: custom(window.ethereum!),
     });
 
-    let trendClient = new TrendSDK(undefined, client);
-    await trendClient.reactToPost(postId, {
+    await trendSDK?.reactToPost(postId, {
       reactionType: "👍",
     });
     console.log("Submit");
