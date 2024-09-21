@@ -1,0 +1,73 @@
+{
+  "person": {
+    "id": "onchain_evm_84532_0x2d9",
+    "mode": "onchain",
+    "chainType": "evm",
+    "chainId": "84532",
+    "schemaId": "0x2d9",
+    "transactionHash": "0xceebbaf9e561efcb79fd6d8f383d70d175a867a180949c9be0a47121d8928002",
+    "name": "Trend Person",
+    "description": "Schema for Trend users",
+    "revocable": true,
+    "maxValidFor": "0",
+    "resolver": "0x0000000000000000000000000000000000000000",
+    "registerTimestamp": "1726890804000",
+    "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
+    "data": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "preferredUsername",
+        "type": "string"
+      }
+    ]
+  },
+  "post": {
+    "id": "onchain_evm_84532_0x2da",
+    "mode": "onchain",
+    "chainType": "evm",
+    "chainId": "84532",
+    "schemaId": "0x2da",
+    "transactionHash": "0x8bb7ed51e25ee414e190ac23efb58d0d3f18ccd2781b62c3a452045386a46b41",
+    "name": "Trend Post",
+    "description": "Schema for Trend content posts",
+    "revocable": true,
+    "maxValidFor": "0",
+    "resolver": "0x0000000000000000000000000000000000000000",
+    "registerTimestamp": "1726890808000",
+    "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
+    "data": [
+      {
+        "name": "content",
+        "type": "string"
+      },
+      {
+        "name": "image",
+        "type": "string"
+      }
+    ]
+  },
+  "reaction": {
+    "id": "onchain_evm_84532_0x2db",
+    "mode": "onchain",
+    "chainType": "evm",
+    "chainId": "84532",
+    "schemaId": "0x2db",
+    "transactionHash": "0xb4f57668a4d8b3d2f1366ed615e45101f05f1085f54d250b2198ca1754657261",
+    "name": "Trend Reaction",
+    "description": "Schema for reactions (like, love, etc.) on posts on Trend",
+    "revocable": true,
+    "maxValidFor": "0",
+    "resolver": "0x0000000000000000000000000000000000000000",
+    "registerTimestamp": "1726890812000",
+    "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
+    "data": [
+      {
+        "name": "reactionType",
+        "type": "string"
+      }
+    ]
+  }
+}
