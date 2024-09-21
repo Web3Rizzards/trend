@@ -13,6 +13,7 @@ import { generatePfp } from "@/lib/noun/pfp";
 import { useTrend } from "@/hooks/useTrend";
 import { useUser } from "@/context/UserContext";
 import { decodeAbiParameters, hexToBigInt } from "viem";
+import toast from "react-hot-toast";
 
 const REACTION_OPTIONS = ["👍", "🔥", "💕", "💪"];
 
@@ -64,9 +65,14 @@ const Post: FC<IProps> = ({ post }) => {
           nullifierHash: hexToBigInt(nullifier_hash as `0x${string}`),
         }
       );
+
+      const currentReactCounter = { ...reactionCounter };
+      currentReactCounter[react] += 1;
+      setReactionCounter(currentReactCounter);
     } catch (error) {
       console.log(error);
     }
+    toast.success("Reacted!");
   };
 
   const fetchReactions = async () => {
