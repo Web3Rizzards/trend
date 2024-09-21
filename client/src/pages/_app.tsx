@@ -12,6 +12,7 @@ import wagmiConfig from "@/configuration/wagmi";
 import Layout from "@/components/Shared/Layout";
 import BaseFont from "@/styles/fonts";
 import { ThemeUpdaterProvider } from "@/context/useThemeUpdater";
+import { UserProvider } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
 
@@ -40,9 +41,11 @@ export default function App({ Component, pageProps }: AppProps) {
             <WagmiProvider config={wagmiConfig}>
               <QueryClientProvider client={queryClient}>
                 <DynamicWagmiConnector>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
+                  <UserProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </UserProvider>
                 </DynamicWagmiConnector>
               </QueryClientProvider>
             </WagmiProvider>
