@@ -9,7 +9,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import fs from 'fs';
 
 const privateKey = process.env.PRIVATE_KEY as `0x${string}`; // THROWAWAY PK
-
+const resolver = "0x2e64c9D5007Ab5E6bA6a65F04708d5ae949B8573"
 if (!privateKey) {
     throw new Error('PRIVATE_KEY is not set or is not a valid 0xString');
 }
@@ -24,7 +24,7 @@ const client = new SignProtocolClient(SpMode.OnChain, {
 const personSchema: Schema = {
     name: 'Trend Person (WorldID)',
     description: 'Schema for Trend users',
-    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
+    resolver: resolver,
     data: [
         { name: 'name', type: 'string' },
         { name: 'preferredUsername', type: 'string' },
@@ -36,7 +36,7 @@ const personSchema: Schema = {
 const postSchema: Schema = {
     name: 'Trend Post (WorldID)',
     description: 'Schema for Trend content posts',
-    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
+    resolver: resolver,
     data: [
         { name: 'content', type: 'string' },
         { name: 'image', type: 'string' },
@@ -47,7 +47,7 @@ const postSchema: Schema = {
 const reactionSchema: Schema = {
     name: 'Trend Reaction (WorldID)',
     description: 'Schema for reactions (like, love, etc.) on posts on Trend',
-    resolver: '0x9FBbe7d77D6283f9a32f6C5d0dc65f1220F34083',
+    resolver: resolver,
     data: [
         { name: 'reactionType', type: 'string' },
     ],

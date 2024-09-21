@@ -1,17 +1,17 @@
 {
   "person": {
-    "id": "onchain_evm_84532_0x2dc",
+    "id": "onchain_evm_84532_0x2e2",
     "mode": "onchain",
     "chainType": "evm",
     "chainId": "84532",
-    "schemaId": "0x2dc",
-    "transactionHash": "0xf21a926f01dd0395f3ec4159a406f3308c880da7927fbb679b398e5a91f1e498",
+    "schemaId": "0x2e2",
+    "transactionHash": "0xde18ce4b4d8de8e854ba8eb3a9866e222d0ea7a54d3795a1bd6d088647552c34",
     "name": "Trend Person (WorldID)",
     "description": "Schema for Trend users",
     "revocable": true,
     "maxValidFor": "0",
-    "resolver": "0x9fbbe7d77d6283f9a32f6c5d0dc65f1220f34083",
-    "registerTimestamp": "1726910022000",
+    "resolver": "0x2e64c9d5007ab5e6ba6a65f04708d5ae949b8573",
+    "registerTimestamp": "1726921464000",
     "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
     "data": [
       {
@@ -25,18 +25,18 @@
     ]
   },
   "post": {
-    "id": "onchain_evm_84532_0x2dd",
+    "id": "onchain_evm_84532_0x2e3",
     "mode": "onchain",
     "chainType": "evm",
     "chainId": "84532",
-    "schemaId": "0x2dd",
-    "transactionHash": "0x13c9c7f600a841fde31ee37166b4158bce6f3a5a8ef0fe7abbe4ef3fbbad64de",
+    "schemaId": "0x2e3",
+    "transactionHash": "0x613350dfda355be9aa9accf1871f0438d745265b49ca663b2501a34b3e1db574",
     "name": "Trend Post (WorldID)",
     "description": "Schema for Trend content posts",
     "revocable": true,
     "maxValidFor": "0",
-    "resolver": "0x9fbbe7d77d6283f9a32f6c5d0dc65f1220f34083",
-    "registerTimestamp": "1726910028000",
+    "resolver": "0x2e64c9d5007ab5e6ba6a65f04708d5ae949b8573",
+    "registerTimestamp": "1726921470000",
     "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
     "data": [
       {
@@ -50,18 +50,18 @@
     ]
   },
   "reaction": {
-    "id": "onchain_evm_84532_0x2de",
+    "id": "onchain_evm_84532_0x2e4",
     "mode": "onchain",
     "chainType": "evm",
     "chainId": "84532",
-    "schemaId": "0x2de",
-    "transactionHash": "0xa07c7f24ea2d7b785983a2672693e3ef3b538a84adb7636aafab68faeaf19d92",
+    "schemaId": "0x2e4",
+    "transactionHash": "0x70bcb4b188db0df559759bba94c00f75c0fc5fbe549fa9e3564059ee3abc97f1",
     "name": "Trend Reaction (WorldID)",
     "description": "Schema for reactions (like, love, etc.) on posts on Trend",
     "revocable": true,
     "maxValidFor": "0",
-    "resolver": "0x9fbbe7d77d6283f9a32f6c5d0dc65f1220f34083",
-    "registerTimestamp": "1726910034000",
+    "resolver": "0x2e64c9d5007ab5e6ba6a65f04708d5ae949b8573",
+    "registerTimestamp": "1726921476000",
     "registrant": "0xC3de06545BaB69447c57293a9eB789D4FFc95e21",
     "data": [
       {
