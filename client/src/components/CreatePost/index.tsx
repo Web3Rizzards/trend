@@ -52,6 +52,8 @@ const CreatePost: FC<IProps> = ({ callback }) => {
     }
     toast.success("Created post");
     callback(address!, content, new Date().getTime().toString());
+    setContent("");
+    setImage("");
   };
 
   const getPfp = async (address: string) => {
