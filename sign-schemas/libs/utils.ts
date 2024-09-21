@@ -1,5 +1,5 @@
 import type { AttestationInfo } from "@ethsign/sp-sdk/dist/types/indexService";
-import { decodeAbiParameters } from 'viem';
+import { decodeAbiParameters, encodeAbiParameters } from 'viem';
 
 export function parseAttestationData(attestation: AttestationInfo): any {
     const data = decodeAbiParameters(
@@ -24,4 +24,8 @@ export function getShortSchemaId(schemaId: string): string {
 // Helper function to get the long schema id
 export function getLongSchemaId(chainId: string, schemaId: string): string {
     return `onchain_evm_${chainId}_${schemaId}`;
+}
+
+export function encodeWorldIdExtraData(root: bigint, nullifierHash: bigint, proof: [bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint]): string {
+    return encodeAbiParameters([{ type: 'uint256' }, { type: 'uint256' }, { type: 'uint256[8]' }], [root, nullifierHash, proof]);
 }
