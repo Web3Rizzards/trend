@@ -16,12 +16,6 @@ export const PostSection = styled.div`
   gap: 12px;
 `;
 
-export const PostSubSection = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-`;
-
 export const PostContent = styled.p`
   font-size: 18px;
 
@@ -30,10 +24,17 @@ export const PostContent = styled.p`
   `}
 `;
 
-export const PostThumbsUpButton = styled.button`
+export const PostReactTabs = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+`;
+
+export const PostReactTab = styled.button`
   background: transparent;
   border: none;
-  padding: 18px;
+  padding: 4px
   margin: 0;
   cursor: pointer;
 
