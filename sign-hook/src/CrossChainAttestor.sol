@@ -291,6 +291,36 @@ contract CrossChainAttestor is Ownable {
         emit AttestationReceived(attestationId, indexingKey);
     }
 
+    function attest(
+        ISignProtocol.Attestation calldata attestation,
+        string calldata indexingKey,
+        bytes calldata delegateSignature,
+        bytes calldata extraData
+    ) external payable returns (uint64) {
+        return signProtocol.attest(attestation, indexingKey, delegateSignature, extraData);
+    }
+
+    function attest(
+        ISignProtocol.Attestation calldata attestation,
+        uint256 resolverFeesETH,
+        string calldata indexingKey,
+        bytes calldata delegateSignature,
+        bytes calldata extraData
+    ) external payable returns (uint64) {
+        return signProtocol.attest(attestation, resolverFeesETH, indexingKey, delegateSignature, extraData);
+    }
+
+    function attest(
+        ISignProtocol.Attestation calldata attestation,
+        IERC20 resolverFeesERC20Token,
+        uint256 resolverFeesERC20Amount,
+        string calldata indexingKey,
+        bytes calldata delegateSignature,
+        bytes calldata extraData
+    ) external returns (uint64) {
+        return signProtocol.attest(attestation, resolverFeesERC20Token, resolverFeesERC20Amount, indexingKey, delegateSignature, extraData);
+    }
+
     // Function to receive ETH (if needed for attestations that require ETH)
     receive() external payable {}
 }
