@@ -7,3 +7,6 @@
 [submodule "sign-hook/lib/openzeppelin-contracts"]
 	path = sign-hook/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "sign-hook/lib/hyperlane-monorepo"]
+	path = sign-hook/lib/hyperlane-monorepo
+	url = https://github.com/Hyperlane-xyz/hyperlane-monorepo

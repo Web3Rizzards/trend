@@ -8,8 +8,11 @@ import Link from "next/link";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import WorldId from "@/components/WorldID";
 import ThemeToggle from "../../Theme/ThemeToggle";
+import { useAccount } from "wagmi";
 
 const TopNavigation = forwardRef((_, ref: LegacyRef<HTMLElement>) => {
+  const { address } = useAccount();
+
   return (
     <TopNavigationContainer ref={ref}>
       <Link href="/">
@@ -17,7 +20,7 @@ const TopNavigation = forwardRef((_, ref: LegacyRef<HTMLElement>) => {
       </Link>
       <TopNavigationSection>
         <ThemeToggle />
-        <WorldId />
+        {address && <WorldId />}
         <DynamicWidget />
       </TopNavigationSection>
     </TopNavigationContainer>
