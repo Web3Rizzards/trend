@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CreatePostContainer, CreatePostContent } from "./style";
 import Button from "../Shared/Button";
 import { useTrend } from "@/hooks/useTrend";
@@ -7,14 +7,26 @@ import DangerousAvatar from "../DangerousAvatar";
 import { useAccount } from "wagmi";
 import { hexToBigInt, decodeAbiParameters } from "viem";
 import { useUser } from "@/context/UserContext";
+import Textarea from "../Shared/Textarea";
+import { baseSepolia } from "viem/chains";
+import AttestationButton from "../AttestationButton";
+import toast from "react-hot-toast";
 
-const CreatePost = () => {
+interface IProps {
+  callback: (
+    address: `0x${string}`,
+    content: string,
+    timestamp: string
+  ) => void;
+}
+
+const CreatePost: FC<IProps> = ({ callback }) => {
   const { proof, merkle_root, nullifier_hash } = useUser();
   const [content, setContent] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const trendSDK = useTrend();
   const [avatar, setAvatar] = useState<string>("");
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
 
   const handleSubmit = async () => {
     const unpackedProof = decodeAbiParameters(
@@ -34,11 +46,14 @@ const CreatePost = () => {
           nullifierHash: hexToBigInt(nullifier_hash as `0x${string}`),
         }
       );
+      console.log("writePost - response", response);
     } catch (error) {
-      console.log(error);
+      console.log("Error", error);
     }
-
-    console.log("Submit");
+    toast.success("Created post");
+    callback(address!, content, new Date().getTime().toString());
+    setContent("");
+    setImage("");
   };
 
   const getPfp = async (address: string) => {
@@ -56,19 +71,12 @@ const CreatePost = () => {
     <CreatePostContainer>
       <DangerousAvatar src={avatar} alt="PFP" />
       <CreatePostContent>
-        <input
-          type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Enter your content"
-        />
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          placeholder="Enter your image"
-        />
-        <Button label="Post" onClick={handleSubmit} />
+        <Textarea id={"post-content"} setContent={setContent} value={content} />
+        {chainId === baseSepolia.id ? (
+          <Button label="Post" onClick={handleSubmit} />
+        ) : (
+          <AttestationButton />
+        )}
       </CreatePostContent>
     </CreatePostContainer>
   );

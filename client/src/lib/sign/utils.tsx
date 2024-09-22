@@ -12,7 +12,12 @@ export function parseAttestationData(attestation: AttestationInfo): any {
   data.forEach((item: any, i: number) => {
     parsedData[attestation.schema.data[i].name] = item;
   });
-  return parsedData;
+  return {
+    ...parsedData,
+    from: attestation.attester,
+    timestamp: attestation.attestTimestamp,
+    id: attestation.attestationId,
+  };
 }
 export function getShortSchemaId(schemaId: string): string {
   // Extract the hex part from the end of the schemaId

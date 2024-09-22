@@ -1,111 +1,125 @@
-"use client";
-
 import React from "react";
 import { ethers } from "ethers";
-import { useAccount, useNetwork, useSigner } from "wagmi";
-import Button from "../Shared/Button"; // Assuming Button is your custom button component
+import { useAccount, useWalletClient, usePublicClient } from "wagmi";
+import Button from "../Shared/Button";
+import { parseAbi, stringToBytes } from "viem";
+import { lineaSepolia, morphHolesky, morphSepolia } from "viem/chains";
+
+const SIGN_ADDRESS = "0x935588C6018925E659847b07891A62CdA5054B2d";
+
+const getDispatcherAddressSet = (chainId: number) => {
+  switch (chainId) {
+    case morphHolesky.id:
+      return "0x790d846ad311772E311B1C7525ba07A799535dd2";
+    case lineaSepolia.id:
+      return "0x38a88B37c9357b11A1b405825935A53aB4cBDAEB";
+    default:
+      return "";
+  }
+};
 
 const AttestationButton = () => {
-  const { address } = useAccount();
-  const { chain } = useNetwork();
-  const { data: signer } = useSigner();
+  const { address, chainId } = useAccount();
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
 
   const handleAttest = async () => {
-    if (!signer || !address || !chain) {
+    if (!walletClient || !address || !chainId) {
       console.error("Wallet not connected");
       return;
     }
 
     try {
-      const chainId = chain.id;
-
       if (chainId === 84532) {
-        // Chain ID 84532: Call attest as per usual
+        const signProtocolContractAddress = SIGN_ADDRESS;
 
-        // Replace with your Sign Protocol contract address on chain 84532
-        const signProtocolContractAddress = "0xYourSignProtocolContractAddress"; // TODO: Replace with actual address
-
-        // ABI of the Sign Protocol contract's attest function
-        const signProtocolABI = [
-          // Include the ABI of the attest function
+        const signProtocolABI = parseAbi([
           "function attest((uint64,uint64,uint64,uint64,address,uint64,uint8,bool,bytes[],bytes),string,bytes,bytes) external payable returns (uint64)",
-        ];
-
-        const contract = new ethers.Contract(
-          signProtocolContractAddress,
-          signProtocolABI,
-          signer
-        );
+        ]);
 
         // Prepare the attestation parameters
-        const attestation = {
-          schemaId: 1, // Replace with actual schemaId
-          linkedAttestationId: 0,
-          attestTimestamp: 0, // Will be set in contract
-          revokeTimestamp: 0,
-          attester: address,
-          validUntil: 0,
-          dataLocation: 1, // Assuming DataLocation.OnChain is 1
-          revoked: false,
-          recipients: [address],
-          data: ethers.utils.toUtf8Bytes("Your attestation data"),
-        };
+        // const attestation1 = {
+        //   schemaId: BigInt(1), // Replace with actual schemaId
+        //   linkedAttestationId: BigInt(0),
+        //   attestTimestamp: BigInt(0), // Will be set in contract
+        //   revokeTimestamp: BigInt(0),
+        //   attester: address,
+        //   validUntil: BigInt(0),
+        //   dataLocation: 1, // Assuming DataLocation.OnChain is 1
+        //   revoked: false,
+        //   recipients: [address],
+        //   data: stringToBytes("Your attestation data"),
+        // };
 
-        const indexingKey = "";
+        const attestation = [
+          BigInt(1),
+          BigInt(0),
+          BigInt(0),
+          BigInt(0),
+          address,
+          BigInt(0),
+          1,
+          false,
+          [address],
+          stringToBytes("Your attestation data"),
+        ];
+
+        const indexingKey = "trend_post";
         const delegateSignature = "0x";
         const extraData = "0x";
 
-        // Call the attest function
-        const tx = await contract.attest(
-          attestation,
-          indexingKey,
-          delegateSignature,
-          extraData
-        );
+        const { request } = await publicClient!.simulateContract({
+          account: address,
+          address: signProtocolContractAddress,
+          abi: signProtocolABI,
+          functionName: "attest",
+          args: [attestation as any, indexingKey, delegateSignature, extraData],
+        });
+        const tx = await walletClient.writeContract(request);
 
         // Wait for the transaction to be mined
-        await tx.wait();
+        // await tx.wait();
 
         console.log("Attestation successful on chain 84532");
       } else {
+        const _currDispatcherAddr = getDispatcherAddressSet(chainId);
+        if (!_currDispatcherAddr) return;
         // Other chain: Call dispatchAttestation
 
         // Replace with your AttestationDispatcher contract address on the current chain
-        const attestationDispatcherAddress =
-          "0xYourAttestationDispatcherAddress"; // TODO: Replace with actual address
 
         // ABI of the AttestationDispatcher contract
-        const attestationDispatcherABI = [
+        const attestationDispatcherABI = parseAbi([
           "function dispatchAttestation(uint256 action, bytes attestationData) external payable",
-        ];
-
-        const contract = new ethers.Contract(
-          attestationDispatcherAddress,
-          attestationDispatcherABI,
-          signer
-        );
+        ]);
 
         // Prepare action and attestationData
-        const action = 0; // Adjust as needed
+        const action = BigInt(0); // Adjust as needed
 
         // Prepare the attestation data to be sent
         const schemaId = 1; // Replace with actual schemaId
-        const contractDetails = "Your contract details";
+        const contractDetails = "content";
         const signerAddress = address;
-        const indexingKey = "";
-        const extraData = ethers.utils.toUtf8Bytes("Your extra data");
+        const indexingKey = "trend_post";
+        const extraData = ethers.toUtf8Bytes("World ID Data");
 
-        const attestationData = ethers.utils.defaultAbiCoder.encode(
+        const abiCoder = new ethers.AbiCoder();
+
+        const attestationData = abiCoder.encode(
           ["uint64", "string", "address", "string", "bytes"],
           [schemaId, contractDetails, signerAddress, indexingKey, extraData]
-        );
+        ) as `0x${string}`;
 
-        // Send the transaction
-        const tx = await contract.dispatchAttestation(action, attestationData, {
-          value: ethers.utils.parseEther("0"),
+        const { request } = await publicClient!.simulateContract({
+          account: address,
+          address: _currDispatcherAddr,
+          abi: attestationDispatcherABI,
+          functionName: "dispatchAttestation",
+          args: [action, attestationData],
         });
+        const tx = await walletClient.writeContract(request);
 
-        await tx.wait();
+        // await tx.wait();
 
         console.log("Attestation dispatched via Hyperlane");
       }
@@ -115,9 +129,7 @@ const AttestationButton = () => {
     }
   };
 
-  return (
-    <Button label="Submit Attestation" onClick={handleAttest}></Button>
-  );
+  return <Button label="Post from other chain" onClick={handleAttest}></Button>;
 };
 
 export default AttestationButton;

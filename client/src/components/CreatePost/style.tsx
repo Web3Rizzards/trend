@@ -4,7 +4,7 @@ export const CreatePostContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 18px;
 `;
 
 export const CreatePostContent = styled.div`
